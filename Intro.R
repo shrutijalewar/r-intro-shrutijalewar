@@ -1,4 +1,10 @@
 setwd('/Users/ssharma/code/nss-ds/r-intro-shrutijalewar')
+install.packages("dplyr")
+install.packages("magrittr")
+library("dplyr")
+library("magrittr")
+install.packages("ggplot2")
+library("ggplot2")
 iris_data <- iris
 
 str(iris_data)
@@ -73,14 +79,53 @@ barplot(counts, main="Number of cars with cylinders")
 #Write a for-loop that iterates through the mtcars dataframe. If the car is has 8 cylinders, print " is a gas guzzler."
 #rownames(mtcars)
 # 
-# for (row in mtcars) {
-#   cyl <- mtcars[row, "cyl"]
-#   car  <-  row.names(row)
-#   if (cyl == 8) {
-#     print(paste(car, "is a gas guzzler."))
-#   }
-# }
+for (row in 1:nrow(mtcars)) {
+  cyl <- mtcars$cyl[row]
+  car  <-  row.names(mtcars)[row]
+  if (cyl == 8) {
+    print(paste(car, "is a gas guzzler."))
+  }
+}
 
+# Work through the code examples in the slides that use the starwars data. Use pipes to create a new view of the data.
+View(starwars)
+
+count(distinct(starwars, homeworld))
+#49
+
+# homeworlds <- 
+#   starwars %>%
+#   filter(!is.na(homeworld)) %>%
+#   group_by(homeworld) %>%
+#   summarize(Count = n())
+
+
+#For those planets that two or more characters call home, how many characters list that as their home planet?
+homeworlds %>%
+  filter(Count > 1) %>%
+  ggplot(aes(reorder(homeworld, Count), Count)) + 
+  geom_col(fill = "darkblue") + 
+  scale_y_continuous(breaks = seq(0, 12, 2)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  xlab("Home World") +
+  ggtitle("Home Worlds of Star Wars Characters")
+
+#Which character is the largest? Smallest? Is it male/female/neither?
+starwars %>%
+  ggplot(aes(mass, height, label = name)) + 
+  geom_text(size = 3,
+            check_overlap = TRUE,
+            aes(color = gender)) 
+# non-metric version in inches and pounds
+starwars %>%
+  mutate(mass2 = mass * 2.2) %>%
+  mutate(height2 = height * 0.393701) %>%
+  ggplot(aes(mass2, height2, label = name)) + 
+  geom_text(size = 3,
+            check_overlap = TRUE,
+            aes(color = gender)) +
+  xlab("weight (pounds)") +
+  ylab("height (inches)")
 
 
 
