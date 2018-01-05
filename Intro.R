@@ -127,5 +127,10 @@ starwars %>%
   xlab("weight (pounds)") +
   ylab("height (inches)")
 
-
+# Install and load the swirl package. Work through the 'Introduction to Statistical Inference' course. 
+# Typing info at a prompt will show you options for exiting swirl.
+#install.packages("swirl")
+library("swirl")
+install_course("Introduction to Statistical Inference")
+swirl()
 
