@@ -1,9 +1,9 @@
 setwd('/Users/ssharma/code/nss-ds/r-intro-shrutijalewar')
-install.packages("dplyr")
-install.packages("magrittr")
+# install.packages("dplyr")
+# install.packages("magrittr")
 library("dplyr")
 library("magrittr")
-install.packages("ggplot2")
+# install.packages("ggplot2")
 library("ggplot2")
 iris_data <- iris
 
@@ -93,34 +93,34 @@ View(starwars)
 count(distinct(starwars, homeworld))
 #49
 
-# homeworlds <- 
-#   starwars %>%
-#   filter(!is.na(homeworld)) %>%
-#   group_by(homeworld) %>%
-#   summarize(Count = n())
-
+homeworlds <-
+  starwars %>%
+  filter(!is.na(homeworld)) %>%
+  group_by(homeworld) %>%
+  summarize(Count = n())
+homeworlds
 
 #For those planets that two or more characters call home, how many characters list that as their home planet?
 homeworlds %>%
   filter(Count > 1) %>%
-  ggplot(aes(reorder(homeworld, Count), Count)) + 
-  geom_col(fill = "darkblue") + 
-  scale_y_continuous(breaks = seq(0, 12, 2)) + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  ggplot(aes(reorder(homeworld, Count), Count)) +
+  geom_col(fill = "darkblue") +
+  scale_y_continuous(breaks = seq(0, 12, 2)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   xlab("Home World") +
   ggtitle("Home Worlds of Star Wars Characters")
 
 #Which character is the largest? Smallest? Is it male/female/neither?
 starwars %>%
-  ggplot(aes(mass, height, label = name)) + 
+  ggplot(aes(mass, height, label = name)) +
   geom_text(size = 3,
             check_overlap = TRUE,
-            aes(color = gender)) 
+            aes(color = gender))
 # non-metric version in inches and pounds
 starwars %>%
   mutate(mass2 = mass * 2.2) %>%
   mutate(height2 = height * 0.393701) %>%
-  ggplot(aes(mass2, height2, label = name)) + 
+  ggplot(aes(mass2, height2, label = name)) +
   geom_text(size = 3,
             check_overlap = TRUE,
             aes(color = gender)) +
